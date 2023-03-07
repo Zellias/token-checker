@@ -17,8 +17,10 @@ using System.Runtime.InteropServices;
 
 namespace WindowsFormsApp1
 {
+
     public partial class Form1 : Form
     {
+      
         string freindsList;
         string serversList;
         public Form1()
@@ -66,12 +68,16 @@ namespace WindowsFormsApp1
            
             pictureBox3.ImageLocation = "";
             pictureBox2.ImageLocation = "";
+
             label1.Text = "";
+
             richTextBox1.Text = "";
             richTextBox2.Text = "";
             richTextBox3.Text = "";
+
             pictureBox3.ImageLocation = "https://cdn.discordapp.com/banners/" + json.id + "/" + json.banner + ".png?size=1024";
             pictureBox2.ImageLocation = "https://cdn.discordapp.com/avatars/"+ json.id + "/"+json.avatar+".png?size=1024";
+            
             label1.Text = json.username+"#"+json.discriminator;
             richTextBox1.Text = json.bio;
             
@@ -160,11 +166,13 @@ namespace WindowsFormsApp1
             foreach (var item in jsonServers)
             {
                 serversList += item.name +':'+ item.id + '\n' + '\n';
+                richTextBox4.Text += item.name + " Saved on server list \n";
             }
             File.AppendAllText("./Accounts/" + json.username + "/servers.txt", serversList);
             foreach (var item in jsonFriends)
             {
                 freindsList += item.user.username + "#"+item.user.discriminator + '\n';
+                richTextBox4.Text += item.user.username + " Saved on friend list \n";
             }
             File.AppendAllText("./Accounts/" + json.username + "/friends.txt", freindsList) ;
             if (checkBox1.Checked)
@@ -176,7 +184,7 @@ namespace WindowsFormsApp1
                     {
                         if(item.user.avatar != null)
                         {
-                            Console.WriteLine("Done");
+                            richTextBox4.Text += "Saved " + item.user.username + " Avatar \n";
                             SaveImage("https://cdn.discordapp.com/avatars/" + item.user.id + "/" + item.user.avatar + ".png?size=1024", "./Accounts/" + json.username + "/Friends-Avatar"+"/"+item.user.id+".png", ImageFormat.Png);
                         }
                     }
@@ -193,6 +201,15 @@ namespace WindowsFormsApp1
 
 
 
+            //DiscordChatExporter.Cli.exe exportdm -t "+textBox1.Text
+            if (checkBox2.Checked)
+            {
+                string strCmdText1;
+                strCmdText1 = "/c cd cli && DiscordChatExporter.Cli.exe exportdm -t " + textBox1.Text;
+
+                System.Diagnostics.Process.Start("CMD.exe", strCmdText1);
+                richTextBox4.Text = "Backup of your chats saved in cli folder \n";
+            }
             try
             {
                 SaveImage("https://cdn.discordapp.com/banners/" + json.id + "/" + json.banner + ".png?size=1024", "./Accounts/" + json.username +"/banner.png", ImageFormat.Png);
@@ -217,6 +234,47 @@ namespace WindowsFormsApp1
             {
 
             }
+        }
+
+        private void richTextBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            BackColor = Color.Black;
+            checkBox1.ForeColor = Color.White;
+            checkBox2.ForeColor = Color.White;
+            label1.ForeColor = Color.White;
+            label2.ForeColor = Color.White;
+
+            richTextBox1.BackColor = Color.Black;
+            richTextBox2.BackColor = Color.Black;
+            richTextBox3.BackColor = Color.Black;
+            richTextBox4.BackColor = Color.Black;
+            richTextBox1.ForeColor = Color.White;
+            richTextBox2.ForeColor = Color.White;
+            richTextBox3.ForeColor = Color.White;
+            richTextBox4.ForeColor = Color.White;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            BackColor = Color.White;
+            checkBox1.ForeColor = Color.Black;
+            checkBox2.ForeColor = Color.Black;
+            label1.ForeColor = Color.Black;
+            label2.ForeColor = Color.Black;
+
+            richTextBox1.BackColor = Color.White;
+            richTextBox2.BackColor = Color.White;
+            richTextBox3.BackColor = Color.White;
+            richTextBox4.BackColor = Color.White;
+            richTextBox1.ForeColor = Color.Black;
+            richTextBox2.ForeColor = Color.Black;
+            richTextBox3.ForeColor = Color.Black;
+            richTextBox4.ForeColor = Color.Black;
         }
     }
 }
